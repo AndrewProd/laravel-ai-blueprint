@@ -1,273 +1,300 @@
-# Laravel AI Blueprint
-
 <p align="center">
-  <strong>Give AI coding agents an engineering blueprint for your Laravel project.</strong>
+  <img src="art/cover.png" alt="Laravel AI Blueprint — a verified project context layer for AI coding agents" width="100%">
 </p>
 
 <p align="center">
-  Architecture awareness · Project context · Engineering rules · Verifiable changes
-</p>
-
-<p align="center">
+  <a href="https://github.com/AndrewProd/laravel-ai-blueprint/actions/workflows/ci.yml"><img src="https://github.com/AndrewProd/laravel-ai-blueprint/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
+  <a href="https://packagist.org/packages/andrewprod/laravel-ai-blueprint"><img src="https://img.shields.io/packagist/v/andrewprod/laravel-ai-blueprint.svg" alt="Latest version on Packagist"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-green.svg" alt="MIT License"></a>
   <img src="https://img.shields.io/badge/PHP-8.2%2B-777BB4.svg" alt="PHP 8.2+">
-  <img src="https://img.shields.io/badge/Laravel-compatible-FF2D20.svg" alt="Laravel compatible">
-  <img src="https://img.shields.io/badge/AI-Codex%20%7C%20Claude%20%7C%20Cursor-7C3AED.svg" alt="AI coding agents">
-  <img src="https://img.shields.io/badge/status-MVP%20development-orange.svg" alt="MVP development">
+  <img src="https://img.shields.io/badge/Laravel-11%20%7C%2012%20%7C%2013-FF2D20.svg" alt="Laravel 11, 12, 13">
 </p>
 
 <p align="center">
-  <a href="#-why">Why</a> ·
-  <a href="#-how-it-works">How it works</a> ·
   <a href="#-installation">Installation</a> ·
-  <a href="#-commands">Commands</a> ·
-  <a href="#-architecture">Architecture</a> ·
-  <a href="#-roadmap">Roadmap</a> ·
-  <a href="#-contributing">Contributing</a>
+  <a href="#%EF%B8%8F-commands">Commands</a> ·
+  <a href="#-what-gets-generated">Generated files</a> ·
+  <a href="#-checks">Checks</a> ·
+  <a href="#-local-first-and-safe-by-default">Security</a> ·
+  <a href="#-limitations">Limitations</a>
 </p>
 
 ---
 
 ## 🚀 What is Laravel AI Blueprint?
 
-AI coding agents can write code. But in a real Laravel project, writing code is only part of the job.
+**Give your AI coding agent the knowledge it needs before it writes code.**
 
-An agent also needs to understand your architecture, existing conventions, module boundaries, API contracts, security requirements, and testing strategy.
+Laravel AI Blueprint analyzes your existing Laravel project and prepares the architecture, requirements, coding rules, and workflows that AI agents need to work within your project's conventions.
 
-Without that context, developers repeatedly explain the same things, agents reinvent existing solutions, and architectural decisions get lost between tasks.
+Instead of explaining your project in every conversation, you build a reusable engineering blueprint once and keep it updated as the project evolves.
 
-**Laravel AI Blueprint turns your existing Laravel repository into a structured engineering knowledge base for AI-assisted development.**
+Works with file-based workflows for **Codex, Claude Code, Cursor, and other AI coding agents.**
 
-It scans your project, builds a machine-readable architecture map, generates documentation and agent instructions, prepares task-specific context, and checks the resulting changes against configurable rules.
+## 🧠 What does AI need before writing code?
 
-Think of it as an **engineering blueprint for AI coding agents** — not another prompt generator.
+A good AI-generated feature needs more than a prompt. It needs to understand five things.
 
-## 💡 Why?
+| What AI needs | Where it lives | What it explains |
+|---|---|---|
+| **Architecture** | `docs/architecture/` | How the system is organized, which modules exist, and how they communicate |
+| **Design system** | `docs/design/` | UI components, colors, layouts, responsive behavior, and UX states *(written by you; not generated in v0.1)* |
+| **Specifications** | `docs/specs/` | Requirements, acceptance criteria, API contracts, database structures, and business rules |
+| **Engineering standards** | `docs/engineering/` | Laravel conventions, testing, security, performance, and code quality |
+| **AI instructions** | `AGENTS.md`, `CLAUDE.md`, `.cursor/rules/` | How the agent should explore, implement, test, and report changes |
 
-Without a project-aware workflow:
+Blueprint helps create this structure from your existing project, identifies missing information, and connects the relevant documents to each task.
 
-- AI agents repeatedly rediscover the same codebase.
-- New features are implemented inconsistently.
-- Architecture decisions exist only in developers' heads.
-- Important requirements get lost in long conversations.
-- Tests and security constraints are easy to overlook.
-- Documentation becomes outdated or disconnected from implementation.
+### 1. Architecture
 
-With Laravel AI Blueprint, the project itself becomes the source of reusable engineering context.
+`docs/architecture/`
 
-| Without Blueprint | With Blueprint |
-|---|---|
-| Explain the architecture repeatedly | Reusable project knowledge |
-| Let the agent guess module boundaries | Documented and reviewable boundaries |
-| Write every task prompt from scratch | Structured, context-aware task briefs |
-| Hope the agent follows conventions | Explicit engineering rules |
-| Manually rediscover relevant files | References to discovered components |
-| Trust the final AI summary | Run independent checks |
+- System diagrams and module boundaries.
+- Responsibilities of each module.
+- Domain, Application, and Infrastructure layers where applicable.
+- Dependencies between modules.
+- Queues, events, integrations, and transaction boundaries.
 
-## ✨ Core features
+The package discovers what it can from the code. Decisions that cannot be reliably inferred must be confirmed by a developer.
 
-### 🗺️ Project architecture mapping
+### 2. Design system
 
-Discover the structure of an existing Laravel application:
+`docs/design/`
 
-- Composer dependencies and framework configuration
-- Routes and controller references
-- Models and database migrations
-- Jobs, events, listeners, and queues where detectable
-- Test directories and testing tools
-- Frontend stack and project configuration
-- References between discovered components
+- Links to Figma designs, screenshots, and mockups.
+- Colors, typography, spacing, and reusable UI components.
+- Responsive layouts and accessibility requirements.
+- Loading, empty, error, and success states.
 
-The scanner distinguishes directly observed facts from inferred relationships and decisions that still require confirmation.
+This is especially useful for projects with a frontend. Blueprint does not invent a design system: in v0.1 it detects the frontend stack (Vue, React, Inertia, Vite, Tailwind, Blade, …) and leaves `docs/design/` to you.
 
-### 🧠 Persistent engineering context
+### 3. Specifications
 
-Generate a reusable knowledge base containing:
+`docs/specs/`
 
-- Architecture overview
-- Module and component map
-- Engineering conventions
-- Testing guidelines
-- Security requirements
-- Architecture decision records
-- Task specifications and acceptance criteria
+- User stories and acceptance criteria.
+- OpenAPI contracts and API requirements.
+- Database schemas and entity relationships.
+- Event and message formats.
+- Business rules and edge cases.
 
-The goal is not to generate as much documentation as possible. It is to create useful, traceable context that helps an agent make better changes.
+When requirements are missing, the task brief lists them under **Open questions** instead of silently inventing behavior.
 
-### 🤖 AI coding agent instructions
+### 4. Engineering standards
 
-Generate project instructions for supported file-based workflows, including:
+`docs/engineering/`
 
-- OpenAI Codex
-- Claude Code
-- Cursor
-- Other agents that support repository instruction files
+- Laravel and PHP conventions.
+- Project structure and naming rules.
+- PHPStan, Pint, PHPUnit, and Pest.
+- Authentication, authorization, validation, and security.
+- SQL performance and database transactions.
+- Required checks before a pull request.
 
-The core blueprint remains agent-neutral. Adapters translate the shared project knowledge into the appropriate instruction-file format.
+### 5. AI workflows
 
-Blueprint does not require a proprietary agent API or an AI provider account.
+`AGENTS.md`, `CLAUDE.md`, `.cursor/rules/`
 
-### 🧩 Ready-made engineering workflows
+- How to explore the codebase before making changes.
+- Which modules and layers to use.
+- How to follow existing conventions.
+- How to create migrations and tests.
+- Which architectural changes require approval.
+- What the final implementation report must contain.
 
-Start tasks with a consistent process instead of an empty prompt.
+**The goal is not to send the entire repository to AI in one giant prompt.** Blueprint keeps project knowledge organized and prepares only the relevant context for a particular task.
 
-Planned built-in workflows:
-
-- Feature development
-- Bug fixing
-- Refactoring
-- API endpoint implementation
-- External integrations and webhooks
-
-Each workflow can include context, acceptance criteria, constraints, implementation guidance, and a verification checklist.
-
-### ✅ Architecture and documentation checks
-
-Run deterministic checks against the blueprint and managed files.
-
-Examples:
-
-- Invalid or outdated blueprint data
-- Broken references in generated documentation
-- Missing required task sections
-- Unresolved conflicts with manually edited generated files
-- Unsupported or partially analyzed project structures
-
-Checks report what they can verify. They do not claim that an application is secure or correct merely because its documentation exists.
-
-### 🔒 Local-first by design
-
-The MVP is designed to work locally inside your repository.
-
-- No mandatory AI API key
-- No automatic source-code uploads
-- No production database connection
-- No application-code execution during scanning
-- No automatic application refactoring
-- No silent overwriting of manual edits
-
-Your codebase remains under your control.
-
-## 🔄 How it works
+## ⚙️ How it works
 
 ```mermaid
 flowchart TD
-    A["Existing Laravel Project"] --> B["Project Scanner"]
-    B --> C["Analyzers"]
-    C --> D["Machine-readable Blueprint"]
-    D --> E["Architecture Documentation"]
-    D --> F["Agent Instructions"]
-    D --> G["Task Context Builder"]
-    G --> H["Codex / Claude Code / Cursor"]
-    H --> I["Developer Reviews Changes"]
-    I --> J["Blueprint Checks"]
+    A["Existing Laravel Project"] --> B["1. Scan the Codebase"]
+    B --> C["2. Build the Blueprint"]
+    C --> D["3. Generate Docs and AI Rules"]
+    D --> E["4. Prepare a Task"]
+    E --> F["AI Agent Implements the Task"]
+    F --> G["5. Check the Result"]
+    G --> H["Review and Merge"]
 ```
 
-### 1. Initialize
-
-Scan the repository and create the first blueprint.
-
-### 2. Review
-
-Confirm architectural decisions that cannot reliably be inferred from source code alone.
-
-### 3. Prepare a task
-
-Build a structured task brief with relevant project context and constraints.
-
-### 4. Develop with your preferred agent
-
-Use the generated instructions and task brief in your existing AI coding workflow.
-
-### 5. Verify
-
-Run checks and review the resulting changes before merging.
-
-**No mandatory agent orchestration. No lock-in to a single AI provider.**
+1. **Scan** — discover the framework, routes, models, migrations, tests, dependencies, and frontend.
+2. **Build** — create a structured map of the project and identify missing information.
+3. **Generate** — create architecture documents, engineering rules, and agent instructions.
+4. **Prepare** — create a task brief with requirements, relevant files, constraints, and acceptance criteria.
+5. **Verify** — check supported rules and documentation references before the changes are reviewed.
 
 ## 📦 Installation
 
-The package is intended to be installed into an existing Laravel application.
+Requirements: PHP 8.2+ and Laravel 11, 12 or 13.
 
 ```bash
-composer require --dev your-vendor/laravel-ai-blueprint
+composer require --dev andrewprod/laravel-ai-blueprint
 ```
 
-> Replace `your-vendor` with the actual published Packagist vendor name once the package is released.
+The service provider is auto-discovered. Optionally publish the config:
 
-Initialize the project:
+```bash
+php artisan vendor:publish --tag=ai-blueprint-config
+```
+
+Quick start:
+
+```bash
+php artisan ai-blueprint:init        # scan, build the blueprint, generate docs and agent files
+php artisan ai-blueprint:review      # answer the architecture questions code can't
+php artisan ai-blueprint:sync        # refresh generated files with your answers
+php artisan ai-blueprint:task "Add customer notifications" --type=feature
+php artisan ai-blueprint:check       # after the agent has finished
+```
+
+Real `ai-blueprint:init` output on a small Laravel 12 app (trimmed):
+
+```text
+   INFO  Laravel AI Blueprint.
+
+  Framework ............................................... Laravel 12.10.0
+  Frontend ...................................... blade, inertia, vite, vue
+  Analyzer: php ................................................. complete
+  Analyzer: routes ............................................... partial
+
+  Components .............................................................
+  controller ............................................................ 4
+  model ................................................................. 2
+  route ................................................................. 9
+  table ................................................................. 2
+
+  Managed files ..........................................................
+  AGENTS.md ....................................................... created
+  CLAUDE.md ......................... appended managed section (your content kept)
+  docs/architecture/overview.md ................................... created
+
+  Needs review ......................................... 8 open question(s)
+  transaction_ownership ........................................... unknown
+  external_api_retry_policy ....................................... unknown
+
+   INFO  Next step: php artisan ai-blueprint:review.
+```
+
+`partial` means some code could not be analyzed statically, for example a route registered in a loop. `ai-blueprint:check` lists the details.
+
+## 🛠️ Commands
+
+All commands support `--no-interaction` and can be used in scripts and CI.
+
+### `ai-blueprint:init`
+
+**Set up Blueprint for your project.**
 
 ```bash
 php artisan ai-blueprint:init
 ```
 
-Inspect the discovered architecture:
+- Scan the existing project.
+- Detect Laravel, PHP, and frontend technologies.
+- Generate the initial architecture map.
+- Create documentation and agent instructions.
+- Report missing information and decisions that need review.
+
+Run this first. Options: `--adapter=claude --adapter=cursor` (default: all enabled in config), `--dry-run`, `--force`, `--no-cache`. Safe to re-run.
+
+### `ai-blueprint:map`
+
+**Understand what Blueprint discovered.**
 
 ```bash
 php artisan ai-blueprint:map
 ```
 
-Prepare a task:
+Show the detected modules, routes, models, integrations, tests, and unresolved questions. Options: `--type=model`, `--format=json`.
+
+### `ai-blueprint:review`
+
+**Confirm the architecture.**
+
+```bash
+php artisan ai-blueprint:review
+```
+
+Answer the questions that cannot be established from code alone: `module_boundaries`, `business_logic_location`, `transaction_ownership`, `external_api_retry_policy`, `authorization_strategy`, `api_versioning`, `queue_usage`, `testing_expectations`. Answers are stored in `.ai-blueprint/decisions.json`. Until a question is answered, every generated file says *"not confirmed — ask, do not assume"*.
+
+Non-interactive:
+
+```bash
+php artisan ai-blueprint:review --set="queue_usage=Mail and webhooks run on Redis queues"
+php artisan ai-blueprint:review --forget=queue_usage
+```
+
+### `ai-blueprint:task`
+
+**Prepare a task for AI.**
 
 ```bash
 php artisan ai-blueprint:task "Add customer notifications"
 ```
 
-Check the blueprint and its configured rules:
+Generate a task brief containing:
+
+- The task goal and acceptance criteria.
+- Relevant modules and source files.
+- Existing project conventions.
+- Architecture and security constraints.
+- Required tests and verification steps.
+
+The brief is written to `docs/tasks/<slug>/` as `task.md`, `context.md` and `checklist.md`. Source files are referenced, never copied.
+
+Options: `--type=feature|bugfix|refactor|api-endpoint|integration`, `--description="..."`, `--adapter=generic|codex|claude|cursor`, `--output=dir`, `--dry-run`, `--force`.
+
+Open the generated brief in your preferred AI coding agent.
+
+### `ai-blueprint:check`
+
+**Check the blueprint and its rules.**
 
 ```bash
 php artisan ai-blueprint:check
 ```
 
-Refresh the discovered information and synchronize managed files:
+Validate the blueprint, check supported architecture rules, and find broken references or unresolved synchronization conflicts.
+
+This command does not guarantee that application code is correct. It checks only the rules implemented and enabled (see [Checks](#-checks)), and it never runs your tests or other project commands.
+
+Options: `--format=json`, `--strict` (warnings fail), `--changed --base=HEAD` (only files changed in git). Exits with code 1 on failure:
+
+```yaml
+- run: php artisan ai-blueprint:check --strict
+```
+
+### `ai-blueprint:scan`
+
+**Refresh the project map.**
 
 ```bash
 php artisan ai-blueprint:scan
+```
+
+Reanalyze the repository after significant code changes. Only `blueprint.json` is updated; run `sync` to refresh documents. Options: `--dry-run`, `--no-cache`, `-v` to list added/removed components.
+
+### `ai-blueprint:sync`
+
+**Update generated documentation safely.**
+
+```bash
 php artisan ai-blueprint:sync
 ```
 
-The commands and flags above describe the intended MVP interface. Confirm their implementation and availability in the published release before relying on them in automation.
+Synchronize managed files with the current blueprint while detecting manual edits. User changes are never silently overwritten: in interactive mode you see a diff and are asked first. Options: `--dry-run`, `--diff`, `--force`, `--adapter=`.
 
-## 🖥️ Example output
+### `ai-blueprint:doctor`
 
-The intended initialization experience:
+**Diagnose the setup.**
 
-```text
-Laravel AI Blueprint
-
-  Project detected
-  ──────────────────────────────────────
-  Framework       Laravel
-  Backend         PHP
-  Frontend        Vue / Vite
-  Dependencies    Analyzed
-  Routes          Analyzed
-  Migrations      Analyzed
-  Tests           Discovered
-
-  Blueprint
-  ──────────────────────────────────────
-  Architecture    Generated
-  Engineering     Generated
-  Agent rules     Generated
-  Project index   Created
-
-  Needs review
-  ──────────────────────────────────────
-  Module boundaries
-  Transaction ownership
-  External API retry policy
-
-  Next step
-  ──────────────────────────────────────
-  php artisan ai-blueprint:review
+```bash
+php artisan ai-blueprint:doctor
 ```
 
-*Illustrative output, not a screenshot from a released implementation.*
+Read-only checks: configuration, write access, blueprint validity, manifest integrity and detected tools. It never installs anything or runs project scripts.
 
-## 📁 Generated project structure
-
-The generated files depend on the project and the selected agent adapters.
+## 📁 What gets generated?
 
 ```text
 your-laravel-app/
@@ -278,198 +305,157 @@ your-laravel-app/
 ├── .cursor/
 │   └── rules/
 ├── docs/
-│   ├── architecture/
-│   │   ├── overview.md
-│   │   └── modules.md
-│   ├── engineering/
-│   │   ├── coding-standards.md
-│   │   ├── testing.md
-│   │   └── security.md
-│   ├── specs/
-│   └── adr/
+│   ├── architecture/   overview.md, modules.md
+│   ├── engineering/    coding-standards.md, testing.md, security.md
+│   ├── specs/          README.md
+│   ├── adr/            README.md
+│   └── tasks/<slug>/   task.md, context.md, checklist.md
 └── .ai-blueprint/
     ├── blueprint.json
-    ├── findings.json
-    ├── rules.json
-    └── manifest.json
+    ├── decisions.json
+    ├── manifest.json
+    └── cache/          (git-ignored)
 ```
 
-### What belongs where?
+**`docs/`** contains readable engineering documentation.
 
-| Location | Purpose |
-|---|---|
-| `AGENTS.md` | General agent instructions |
-| `CLAUDE.md` | Claude Code project instructions |
-| `.claude/rules/` | Additional Claude Code rules |
-| `.cursor/rules/` | Cursor-specific rules |
-| `docs/architecture/` | Human-readable architecture knowledge |
-| `docs/engineering/` | Coding, testing, and security standards |
-| `docs/specs/` | Requirements and task specifications |
-| `docs/adr/` | Architecture decision records |
-| `.ai-blueprint/blueprint.json` | Machine-readable project model |
-| `.ai-blueprint/manifest.json` | Tracking of generated and managed files |
+**Agent instruction files** explain how AI should work in this repository.
 
-The generated file formats should follow the official conventions of each supported tool. Not every project needs every directory.
+**`.ai-blueprint/blueprint.json`** stores the machine-readable project map.
 
-## 🧱 Architecture
+Every fact in it is labelled **observed** (seen in a file), **inferred** (guessed from naming or structure), **confirmed** (recorded by a human) or **unknown**, and points to its source file. Analysis findings and coverage (`complete` / `partial`) are stored there as well. The format is versioned and described by [`resources/schemas/blueprint.schema.json`](resources/schemas/blueprint.schema.json).
 
-Laravel AI Blueprint separates project analysis, the engineering model, artifact generation, and agent-specific output.
+**`decisions.json`** stores the architecture decisions you confirmed with `review`.
+
+**`manifest.json`** stores hashes of generated files so manual edits can be detected.
+
+Commit everything except `.ai-blueprint/cache/`. Adapters and documentation can be switched off in `config/ai-blueprint.php`.
+
+### Your edits are safe
+
+- **Untouched generated files** are updated by `sync`.
+- **Edited generated files** are left alone and reported (`BP003`). They are overwritten only after confirmation or with `--force`.
+- **Existing Markdown files Blueprint didn't create** are kept. This includes the `AGENTS.md` and `CLAUDE.md` that ship with new Laravel apps (Laravel Boost). Blueprint appends one delimited section and later updates only that section:
+
+  ```markdown
+  <!-- ai-blueprint:start — generated section, managed by `php artisan ai-blueprint:sync` -->
+  ...
+  <!-- ai-blueprint:end -->
+  ```
+
+- **Task briefs** belong to you after creation and are never overwritten without `--force`.
+- **Files are never deleted.**
+
+## 🔎 What is analyzed
+
+| Analyzer | Reads | Finds |
+|---|---|---|
+| composer | `composer.json`, `composer.lock` | Laravel/PHP versions, PHPUnit/Pest/PHPStan/Larastan/Pint, notable packages, SDK integrations (Stripe, AWS, …) |
+| php | `app/**/*.php` via the PHP tokenizer | Classes, interfaces, enums; roles (models, controllers, jobs, events, listeners, policies, form requests, services, …); imports, `implements`, listener → event |
+| routes | `routes/*.php` | `Route::get/post/…/match/view`, `resource`/`apiResource` with `only`/`except`, prefixed groups, controller references |
+| migrations | `database/migrations` | Tables, columns, indexes, foreign keys, drops and renames, replayed in order |
+| tests | `tests/`, `*.test.*`, `*.spec.*` | PHPUnit/Pest files per suite, frontend tests, test → class links via imports |
+| frontend | `package.json`, config files, `resources/` | Vue, React, Angular, Svelte, Inertia, Next/Nuxt, Vite, TypeScript, Tailwind, Blade, package manager |
+
+## ✅ Checks
+
+| Rule | Severity | Checks |
+|---|---|---|
+| BP001 | error | `blueprint.json` is readable, valid and internally consistent |
+| BP002 | warning | Files referenced by managed documents exist |
+| BP003 | warning | Managed files and sections were not edited by hand or deleted |
+| BP004 | error | Task briefs contain Goal, Context, Acceptance criteria, Constraints, Open questions and Expected result |
+| BP005 | error | Nothing is marked *confirmed* without a recorded human decision |
+| BP006 | warning | Files or analyzers that could not be processed (for example PHP syntax errors) |
+| BP007 | info | Sensitive files inside scanned directories (path only, never the content) |
+| BP008 | error | State files use a supported schema version |
+| BP009 | warning / info | The blueprint references deleted files, or managed files are out of date |
+
+Rules can be disabled with `checks.disabled` in the config.
+
+## 🏗️ Package architecture
+
+The package itself is divided into five main parts.
 
 ```text
-Artisan Commands
-       |
-Application Services
-       |
-Project Scanner
-       |
-Analyzers
-       |
-Normalized Blueprint
-       |
-       +-- Documentation Generators
-       +-- Agent Adapters
-       +-- Task Context Builder
-       +-- Rule Engine
-       |
-Managed Files and Reports
+Laravel AI Blueprint
+│
+├── Scanner
+│   └── Reads project files and discovers components
+│
+├── Blueprint
+│   └── Stores the normalized project map and evidence
+│
+├── Generators
+│   └── Creates documentation, rules, and task briefs
+│
+├── Agent Adapters
+│   └── Formats instructions for Codex, Claude Code, Cursor
+│
+└── Rule Engine
+    └── Checks supported rules and reports problems
 ```
 
-### Design principles
+### How the parts work together
 
-**Agent-neutral core**  
-The shared blueprint is independent of any one coding agent.
+The scanner discovers facts about the project. The Blueprint stores those facts in a shared format. Generators turn that information into documents and task briefs. Agent adapters create tool-specific instruction files. The rule engine checks what can be verified automatically.
 
-**Evidence-based analysis**  
-Discovered facts should point to their sources. Inferred relationships must not be presented as confirmed decisions.
+This separation keeps the core independent of any particular AI provider.
 
-**Human-owned architecture**  
-Developers approve important architectural choices instead of having a tool impose a methodology.
+## 🔒 Local-first and safe by default
 
-**Safe synchronization**  
-Manual edits are detected and preserved unless the developer explicitly approves overwriting them.
+- No AI API key, no network access, no telemetry.
+- No execution of application code: PHP is read with the tokenizer, and routes and migrations are never run.
+- No database connections.
+- No reading of secrets: `.env*`, keys, certificates, `auth.json`, credentials files and database dumps are skipped by built-in patterns that config cannot remove. The cache stores parsed symbols, never file contents.
+- Writes are confined to the project. Every path is validated (no `..`, no symlink escape, never inside `.git/`, `vendor/` or `node_modules/`), and writes are atomic.
+- Repository content is treated as data. Text such as *"ignore previous instructions"* in your code is never copied into generated files.
+- No automatic refactoring of application files.
+- No silent overwriting of manual changes.
 
-**Small, composable analyzers**  
-New project analyzers and rules can be added without redesigning the entire package.
+Blueprint helps AI follow your engineering process; it does not replace code review, tests, or developer approval.
 
-## 🛡️ Security model
+## 🧭 Limitations
 
-AI-assisted development needs guardrails that are useful in practice.
-
-The MVP is designed around these defaults:
-
-- Sensitive environment files are excluded from scanning.
-- Dependency and generated directories are excluded by default.
-- The scanner does not execute application code.
-- The package does not connect to application databases.
-- The package does not transmit repository data to external services.
-- Generated paths are validated before writing.
-- Existing user content is not silently overwritten.
-- Project files are treated as data, not as trusted instructions to the package.
-- External test or analysis commands require explicit configuration or invocation.
-
-Blueprint is an engineering aid, not a security certification. Application security still requires appropriate code review, testing, and operational controls.
-
-## 🧪 Testing and quality
-
-The project should maintain automated coverage for:
-
-- Blueprint serialization and schema validation
-- PHP and Laravel project scanning
-- Frontend detection
-- Task brief generation
-- Architecture rules
-- Path traversal prevention
-- Sensitive-file exclusion
-- Synchronization conflicts
-- Non-interactive CLI usage
-- Partial analysis and malformed source files
-
-CI should verify the supported PHP/Laravel matrix, static analysis, formatting, and package installation in a test Laravel application.
+- Routes registered by packages, service providers or loops are not discovered; they are reported as partial.
+- Migrations with raw SQL or dynamic table names are only partially analyzed.
+- Roles derived from directory names (for example `app/Services`) are marked *inferred*, not proven.
+- Frontend source files are not parsed; only the stack and directories are detected.
+- Task context is selected by keyword matching. Treat it as a starting point.
+- Instruction files guide agents but cannot guarantee that agents follow them.
 
 ## 🗺️ Roadmap
 
-The roadmap is intentionally incremental.
-
-- [ ] Composer package and Artisan integration
-- [ ] Initial project scanner
-- [ ] Machine-readable blueprint schema
-- [ ] Architecture and engineering documentation
-- [ ] Generic agent instructions
-- [ ] Codex adapter
-- [ ] Claude Code adapter
-- [ ] Cursor adapter
-- [ ] Task brief generation
-- [ ] Built-in workflow templates
-- [ ] Deterministic blueprint checks
-- [ ] Safe synchronization of managed files
-- [ ] Expanded architecture analysis
-- [ ] Optional LLM-assisted documentation
+- [x] Project scanner and initial Blueprint
+- [x] Architecture and engineering documentation
+- [x] Agent instruction adapters (AGENTS.md / Codex, Claude Code, Cursor)
+- [x] Architecture review workflow
+- [x] Task brief generation
+- [x] Built-in task templates (feature, bugfix, refactor, api-endpoint, integration)
+- [x] Deterministic architecture checks (BP001–BP009)
+- [x] Safe documentation synchronization
+- [ ] Design system documents (`docs/design/`)
+- [ ] Optional AI-assisted analysis
 - [ ] Custom architecture profiles
-- [ ] CI policy integration
-- [ ] Optional multi-agent workflows
+- [ ] Advanced workflows and CI integration
 
-Roadmap items are plans, not claims that those features already exist. Update this checklist as features are implemented and released.
-
-## 🧭 Scope and limitations
-
-The initial release focuses on Laravel repositories and file-based agent instructions.
-
-- Static scanning cannot discover every runtime-generated route or dynamic dependency.
-- Source code alone cannot reliably reveal all business rules.
-- Frontend detection does not imply deep analysis of every frontend framework.
-- Agent instruction files guide behavior but do not guarantee compliance.
-- Architecture checks only cover rules that are actually implemented and enabled.
-- Full AI orchestration and external model integrations are outside the initial scope.
-
-The package should report uncertainty rather than invent architectural facts.
+Roadmap items are planned features, not claims about the current release.
 
 ## 🤝 Contributing
 
-Contributions are welcome.
+Contributions are welcome — especially new analyzers, architecture rules, task templates, agent adapters, and test fixtures.
 
-Useful areas to contribute:
+Please include tests for new behavior and document any limitations or assumptions.
 
-- Laravel project analyzers
-- Frontend detection
-- Architecture rules
-- Agent adapters
-- Workflow templates
-- Security and synchronization tests
-- Documentation and example projects
+```bash
+composer install
+composer test          # PHPUnit: unit, feature and security tests, JSON Schema validation
+composer analyse       # PHPStan
+composer format:check  # Pint
+```
 
-Before opening a pull request:
-
-1. Run the test suite.
-2. Run static analysis and formatting checks.
-3. Add tests for new behavior.
-4. Document new rules and their limitations.
-5. Avoid introducing mandatory network access or destructive file operations.
-
-See [CONTRIBUTING.md](CONTRIBUTING.md) for the contribution process.
-
-## 🗣️ Feedback and ideas
-
-Have an idea for a workflow, analyzer, or architecture rule?
-
-Open an issue with:
-
-- The problem you want to solve
-- An example Laravel project structure
-- The expected behavior
-- Any relevant security or compatibility constraints
-
-Please do not include secrets, production credentials, or private application source code in public issues.
+See [CONTRIBUTING.md](CONTRIBUTING.md), [SECURITY.md](SECURITY.md) and [CHANGELOG.md](CHANGELOG.md).
 
 ## 📜 License
 
 Laravel AI Blueprint is open-source software licensed under the [MIT License](LICENSE).
-
----
-
-<p align="center">
-  <strong>Less repeated context. Better engineering workflows. More verifiable AI-generated changes.</strong>
-</p>
-
-<p align="center">
-  If this project is useful to your workflow, consider giving it a ⭐ on GitHub.
-</p>

@@ -1,0 +1,11 @@
+{
+    "private": true,
+    "type": "module",
+    "scripts": { "dev": "vite", "build": "vite build", "test": "vitest" },
+    "devDependencies": {
+        "vite": "^6.0.0",
+        "vitest": "^3.0.0",
+        "@inertiajs/vue3": "^2.0.0",
+        "vue": "^3.5.0"
+    }
+}

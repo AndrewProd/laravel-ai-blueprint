@@ -1,0 +1,74 @@
+{
+    "name": "andrewprod/laravel-ai-blueprint",
+    "description": "Project-aware engineering context and architecture checks for Laravel AI coding agents",
+    "type": "library",
+    "license": "MIT",
+    "keywords": [
+        "laravel",
+        "ai",
+        "ai-agents",
+        "architecture",
+        "documentation",
+        "claude-code",
+        "codex",
+        "cursor",
+        "agents-md",
+        "static-analysis"
+    ],
+    "homepage": "https://github.com/AndrewProd/laravel-ai-blueprint",
+    "support": {
+        "issues": "https://github.com/AndrewProd/laravel-ai-blueprint/issues",
+        "source": "https://github.com/AndrewProd/laravel-ai-blueprint",
+        "security": "https://github.com/AndrewProd/laravel-ai-blueprint/security/policy"
+    },
+    "authors": [
+        {
+            "name": "AndrewProd",
+            "homepage": "https://github.com/AndrewProd"
+        }
+    ],
+    "require": {
+        "php": "^8.2",
+        "ext-json": "*",
+        "ext-tokenizer": "*",
+        "illuminate/console": "^11.0 || ^12.0 || ^13.0",
+        "illuminate/contracts": "^11.0 || ^12.0 || ^13.0",
+        "illuminate/filesystem": "^11.0 || ^12.0 || ^13.0",
+        "illuminate/support": "^11.0 || ^12.0 || ^13.0"
+    },
+    "require-dev": {
+        "justinrainbow/json-schema": "^6.0",
+        "laravel/pint": "^1.0",
+        "orchestra/testbench": "^9.0 || ^10.0 || ^11.0",
+        "phpstan/phpstan": "^2.0",
+        "phpunit/phpunit": "^11.5 || ^12.0 || ^13.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "AndrewProd\\AiBlueprint\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "AndrewProd\\AiBlueprint\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "AndrewProd\\AiBlueprint\\AiBlueprintServiceProvider"
+            ]
+        }
+    },
+    "scripts": {
+        "test": "phpunit",
+        "analyse": "phpstan analyse --memory-limit=1G",
+        "format": "pint",
+        "format:check": "pint --test"
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}

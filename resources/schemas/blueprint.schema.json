@@ -1,0 +1,153 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/andrewprod/laravel-ai-blueprint/resources/schemas/blueprint.schema.json",
+  "title": "Laravel AI Blueprint",
+  "description": "Machine-readable project model written to .ai-blueprint/blueprint.json (schema 1.x).",
+  "type": "object",
+  "required": ["schema_version", "generated_at", "generator", "project", "analysis", "components", "architecture", "unknowns", "findings"],
+  "additionalProperties": false,
+  "definitions": {
+    "status": { "type": "string", "enum": ["observed", "inferred", "confirmed", "unknown"] },
+    "severity": { "type": "string", "enum": ["error", "warning", "info"] },
+    "evidence": {
+      "type": "object",
+      "required": ["path"],
+      "additionalProperties": false,
+      "properties": {
+        "path": { "type": "string", "minLength": 1 },
+        "line": { "type": "integer", "minimum": 1 },
+        "symbol": { "type": "string" }
+      }
+    },
+    "evidenceList": { "type": "array", "items": { "$ref": "#/definitions/evidence" } }
+  },
+  "properties": {
+    "schema_version": { "type": "string", "pattern": "^1\\.[0-9]+$" },
+    "generated_at": { "type": "string" },
+    "generator": {
+      "type": "object",
+      "required": ["name", "version"],
+      "properties": {
+        "name": { "type": "string" },
+        "version": { "type": "string" }
+      }
+    },
+    "project": {
+      "type": "object",
+      "required": ["name", "framework", "frontend", "tools", "packages"],
+      "additionalProperties": false,
+      "properties": {
+        "name": { "type": "string" },
+        "framework": { "type": "string" },
+        "framework_version": { "type": ["string", "null"] },
+        "php": { "type": ["string", "null"] },
+        "frontend": { "type": "array", "items": { "type": "string" }, "uniqueItems": true },
+        "tools": { "type": "array", "items": { "type": "string" }, "uniqueItems": true },
+        "packages": { "type": "object", "additionalProperties": { "type": "string" } }
+      }
+    },
+    "analysis": {
+      "type": "object",
+      "required": ["complete", "analyzers", "excluded_sensitive_files"],
+      "additionalProperties": false,
+      "properties": {
+        "complete": { "type": "boolean" },
+        "analyzers": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["analyzer", "status", "notes"],
+            "additionalProperties": false,
+            "properties": {
+              "analyzer": { "type": "string" },
+              "status": { "type": "string", "enum": ["complete", "partial", "failed", "skipped"] },
+              "notes": { "type": "array", "items": { "type": "string" } }
+            }
+          }
+        },
+        "excluded_sensitive_files": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "components": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "type", "name", "path", "status", "evidence"],
+        "additionalProperties": false,
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-z_]+\\.[^\\s]+$" },
+          "type": { "type": "string", "minLength": 1 },
+          "name": { "type": "string", "minLength": 1 },
+          "path": { "type": ["string", "null"] },
+          "status": { "$ref": "#/definitions/status" },
+          "evidence": { "$ref": "#/definitions/evidenceList" },
+          "attributes": { "type": "object" }
+        }
+      }
+    },
+    "architecture": {
+      "type": "object",
+      "required": ["confirmed_decisions", "inferred_relationships"],
+      "additionalProperties": false,
+      "properties": {
+        "confirmed_decisions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["key", "question", "answer", "status", "decided_at"],
+            "additionalProperties": false,
+            "properties": {
+              "key": { "type": "string" },
+              "question": { "type": "string" },
+              "answer": { "type": "string", "minLength": 1 },
+              "status": { "const": "confirmed" },
+              "decided_at": { "type": "string" }
+            }
+          }
+        },
+        "inferred_relationships": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["from", "to", "type", "status", "evidence"],
+            "additionalProperties": false,
+            "properties": {
+              "from": { "type": "string" },
+              "to": { "type": "string" },
+              "type": { "type": "string" },
+              "status": { "$ref": "#/definitions/status" },
+              "evidence": { "$ref": "#/definitions/evidenceList" }
+            }
+          }
+        }
+      }
+    },
+    "unknowns": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["key", "question"],
+        "additionalProperties": false,
+        "properties": {
+          "key": { "type": "string" },
+          "question": { "type": "string" }
+        }
+      }
+    },
+    "findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["code", "severity", "message"],
+        "additionalProperties": false,
+        "properties": {
+          "code": { "type": "string" },
+          "severity": { "$ref": "#/definitions/severity" },
+          "message": { "type": "string" },
+          "path": { "type": "string" },
+          "source": { "type": "string" }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,10 @@
+{
+    "packages": [
+        { "name": "laravel/framework", "version": "v12.10.0" },
+        { "name": "laravel/sanctum", "version": "v4.0.3" },
+        { "name": "stripe/stripe-php", "version": "v16.1.0" }
+    ],
+    "packages-dev": [
+        { "name": "phpunit/phpunit", "version": "11.5.0" }
+    ]
+}
